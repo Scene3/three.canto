@@ -94,43 +94,43 @@ site three {
             name = owner.type
 
             owner.name;
-            [/ . /]
+            [| . |]
             name;
             sub;
         }
 
         member field(x) {
-            [/ = /]
+            [| = |]
             x;
-            [/ ; /]
+            [| ; |]
         }
 
         member immutable_field(x),(x, y),(x, y, z) {
-            [/ .set( /]
+            [| .set( |]
             x;
             with (y) {
-                [/ , /]
+                [| , |]
                 y;
             }
             with (z) {
-                [/ , /]
+                [| , |]
                 z;
             }
-            [/ ); /]
+            [| ); |]
         }
             
         member method(x),(x, y),(x, y, z) {
-            [/ ( /]
+            [| ( |]
             x;
             with (y) {
-                [/ , /]
+                [| , |]
                 y;
             }
             with (z) {
-                [/ , /]
+                [| , |]
                 z;
             }
-            [/ ); /]
+            [| ); |]
         }
         
         dynamic javascript generate { 
@@ -149,16 +149,16 @@ site three {
         javascript body [?]
 
         /-- declare the function --/
-        javascript declare [|
+        javascript declare [/
             {= debug_log("declaring function " + name + " with " + parameters.count + " parameters"); =}
             function {= name; =}({= item_list(parameters); =}) {
             {= body; =}
             }
-        |]
+        /]
 
 
         /-- call the function --/
-        this generate [| {= name; =}(); /]
+        this generate [/ {= name; =}(); |]
     }
 
     dynamic item_list(items[]) {
@@ -183,7 +183,7 @@ site three {
         double z = zz
 
         debug_log("...instantiating vector3 of type "+ type + " and x,y,z = " + x + "," + y + "," + z);
-        [| new THREE.Vector3({= x; =}, {= y; =}, {= z; =}) /]
+        [/ new THREE.Vector3({= x; =}, {= y; =}, {= z; =}) |]
 
     } 
 
@@ -195,7 +195,7 @@ site three {
     dynamic javascript three_color(c) {
         keep: int color = c
         
-        [| new THREE.Color({= color; =}) /]
+        [/ new THREE.Color({= color; =}) |]
     }
 
     /** Base class of objects used in scene construction.  These objects
@@ -274,42 +274,42 @@ site three {
         dynamic javascript add(three_object obj) {
             debug_log("....adding " + obj.name + " to " + name);
             name;
-            [/ .add( /]
+            [| .add( |]
             obj.name;
-            [/ ); /]
+            [| ); |]
         }
         
         dynamic javascript rotate(float x, float y, float z) {
             newline;
-            name; [/ .rotation.x += {= x; =}; /]
-            name; [/ .rotation.y += {= y; =}; /]
-            name; [/ .rotation.z += {= z; =}; /]
+            name; [| .rotation.x += {= x; =}; |]
+            name; [| .rotation.y += {= y; =}; |]
+            name; [| .rotation.z += {= z; =}; |]
         }
         
         dynamic javascript orient(float x, float y, float z) {
             newline;
-            name; [/ .rotation.x = {= x; =}; /]
-            name; [/ .rotation.y = {= y; =}; /]
-            name; [/ .rotation.z = {= z; =}; /]
+            name; [| .rotation.x = {= x; =}; |]
+            name; [| .rotation.y = {= y; =}; |]
+            name; [| .rotation.z = {= z; =}; |]
         }
         
         dynamic javascript rotate_on_axis(vector3 axis, float angle) {
             newline;
-            name; [/ .rotateOnAxis({= axis; =},{= angle; =}); /]
+            name; [| .rotateOnAxis({= axis; =},{= angle; =}); |]
         }
 
         dynamic javascript move(float x, float y, float z) {
             newline;
-            name; [/ .position.x += {= x; =}; /]
-            name; [/ .position.y += {= y; =}; /]
-            name; [/ .position.z += {= z; =}; /]
+            name; [| .position.x += {= x; =}; |]
+            name; [| .position.y += {= y; =}; |]
+            name; [| .position.z += {= z; =}; |]
         }
 
         dynamic javascript locate(float x, float y, float z) {
             newline;
-            name; [/ .position.x = {= x; =}; /]
-            name; [/ .position.y = {= y; =}; /]
-            name; [/ .position.z = {= z; =}; /]
+            name; [| .position.x = {= x; =}; |]
+            name; [| .position.y = {= y; =}; |]
+            name; [| .position.z = {= z; =}; |]
         }
 
         dynamic immutable_field(pos.x, pos.y, pos.z) set_position {
@@ -326,9 +326,9 @@ site three {
             debug_log("    ...options: " + (string) options);  
             debug_log("    ...decorated options: " + decorate(options));  
 
-            [| new THREE. /]
+            [/ new THREE. |]
             three_class;
-            [/ ( /]
+            [| ( |]
 
             if (args) {
                 arg_list(args);
@@ -337,14 +337,14 @@ site three {
                 decorate(options);
             }
 
-            [/ ) /]
+            [| ) |]
         }
 
         dynamic javascript set_attributes {
             debug_log("setting position of " + owner.type + " to " + pos);
-            with (pos) [|
+            with (pos) [/
                 {= name; =}.position.set({= pos.x; =}, {= pos.y; =}, {= pos.z; =});
-            /]
+            |]
             sub;            
         }         
 
@@ -353,37 +353,37 @@ site three {
             if (decl) {
                 decl;
                 
-            } else if (three_class) [| 
+            } else if (three_class) [/ 
                 var {= name; =} = {= construct; =};
-            /]
+            |]
             
             set_attributes;
             
             sub;
     
-            with (next_frame) [|
+            with (next_frame) [/
                 {= name; =}.next_frame = function () {
                     {= next_frame; =}
                 };
-            /]
+            |]
 
-            with (interact) [|
+            with (interact) [/
                 {= name; =}.interact = function () {
                     {= interact; =}
                 };
-            /]
+            |]
             
-            with (on_point_to) [|
+            with (on_point_to) [/
                 {= name; =}.onselect = function() {
                     {= on_point_to; =}
                 };
-            /]
+            |]
 
-            with (on_drag) [|
+            with (on_drag) [/
                 {= name; =}.ondrag = function() {
                     {= on_drag; =}
                 };
-            /]
+            |]
         }
     }
 
@@ -399,7 +399,7 @@ site three {
         
             name; 
             
-            [/ .raycast = function(raycaster, intersects) {
+            [| .raycast = function(raycaster, intersects) {
                     var childIntersects = [];
                     var children = this.children;
                     for ( var i = 0, len = children.length; i < len; i++ ) {
@@ -412,7 +412,7 @@ site three {
                        }
                     }          
                 };
-            /]
+            |]
         
             sub;
         }
@@ -466,7 +466,7 @@ site three {
      
         javascript set_size(width, height) {
             owner.name;
-            [/ .setSize({= width; =}, {= height; =}); /]
+            [| .setSize({= width; =}, {= height; =}); |]
         }
 
         javascript set_attributes [/]
@@ -499,9 +499,9 @@ site three {
                                 (vector3 origin, vector3 direction, near, far) {
         three_class = "Raycaster"
     
-        with (near)        [/ new THREE.Raycaster({= origin; =}, {= direction; =}, {= near; =}, {= far; =}) /]
-        else with (origin) [/ new THREE.Raycaster({= origin; =}, {= direction; =}) /]
-        else               [/ new THREE.Raycaster() /]
+        with (near)        [| new THREE.Raycaster({= origin; =}, {= direction; =}, {= near; =}, {= far; =}) |]
+        else with (origin) [| new THREE.Raycaster({= origin; =}, {= direction; =}) |]
+        else               [| new THREE.Raycaster() |]
     } 
 
 
@@ -566,9 +566,9 @@ site three {
         this generate {
             far(2000);    /--- 1.5 * backdrop.horizon); ---/
             debug_log("default_scene_cam name: " + name);
-            [/
+            [|
                 {= name; =}.target = new THREE.Vector3( 0, 2, 0 );
-            /]
+            |]
             sub;
         }
     }
@@ -619,9 +619,9 @@ site three {
         /---- meta properties ----/
 
         title = "three.fun"
-        viewport [/ width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0 /]
+        viewport [| width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0 |]
 
-        style [/ 
+        style [| 
             html, body { 
                 width: 100%;
                 height: 100%;
@@ -630,7 +630,7 @@ site three {
                 margin: 0;
                 background: #111111;
             }
-        /]
+        |]
 
         /---------------------/
         /----  the scene  ----/
@@ -666,11 +666,11 @@ site three {
         /---- the canvas ----/
     
         three_component(*) tc(scene s),(params{}) {
-            style  [/ position: absolute; top: 0; left: 0;
+            style  [| position: absolute; top: 0; left: 0;
                       width: 100%; height: 100%; 
                       margin: 0; padding: 0;
                       z-index: 0;
-                   /]
+                   |]
 
             canvas_id = "tc"
             
@@ -681,7 +681,7 @@ site three {
             controls[] canvas_controls = [ my_drag_controls(canvas_id, s) ]
         }        
 
-        [/
+        [|
            <div style="position: absolute; top: 16px; left: 16px;
                        width: 30em; padding: 12px;
                        color: #88FFAA;
@@ -693,7 +693,7 @@ site three {
                    applications that deliver interactive 3D content.
                </p>
            </div>
-        /] 
+        |] 
         tc(sample_scene);
     }
     
@@ -729,7 +729,7 @@ site three {
     dynamic arg_list(arguments[]) {
         if (arguments) {
             for int i from 0 to arguments.count {
-                if (i > 0) [/ , /]
+                if (i > 0) [| , |]
                 arguments[i];
             } 
         }

@@ -13,7 +13,7 @@ site three {
 
     dynamic dom_event(nm) {
        name = nm
-       [/ '{= name; =}' /]
+       [| '{= name; =}' |]
     }
         
     dynamic event_handler {
@@ -23,9 +23,9 @@ site three {
     }
     
     dynamic event_listener(element, dom_event event, event_handler handler) {
-        [|
+        [/
             {= element; =}.addEventListener({= event; =}, {= handler.name; =}, {= handler.capture; =});
-        /]            
+        |]            
     }
 
     /---- interaction events ----/
@@ -72,7 +72,7 @@ site three {
     controls point_controls(id, three_object obj) {
         controls_var = id + "_point_controls"
 
-        declare [|
+        declare [/
             var point_controls = function(_camera, _objects) {
                 var _domElement = document.getElementById("{= id; =}");
                 var _raycaster = new THREE.Raycaster();
@@ -93,11 +93,11 @@ site three {
             }
             point_controls.prototype = Object.create( THREE.EventDispatcher.prototype );
             point_controls.prototype.constructor = point_controls;
-        |]
+        /]
     
         event_handler mousedown {
            name = controls_var + ".onmousedown"
-           declare [|
+           declare [/
                function(event) {
                    if (_this.enabled === false) {
                        return;
@@ -120,12 +120,12 @@ site three {
                        _this.dispatchEvent( { type: 'select', object: _selected } );
                    }
                }
-           /]
+           |]
         }
 
         event_handler mouseup {
            name = controls_var + ".onmouseup"
-           declare [|
+           declare [/
                function(event) {
                    event.preventDefault();
                    if (_selected) {
@@ -133,12 +133,12 @@ site three {
                    }
                    _domElement.style.cursor = 'auto';
                }
-           /]
+           |]
         }
 
         event_handler mousemove {
            name = controls_var + ".onmousemove"
-           declare [|
+           declare [/
                function(event) {
                    if (_this.enabled === false) {
                        return;
@@ -164,17 +164,17 @@ site three {
                        _domElement.style.cursor = 'auto';
                    }
                }
-           /]
+           |]
         }
 
-        attach(cam_var) [|
+        attach(cam_var) [/
             var {= id; =}_pointable_objs = [ {= for three_obj o in obj.pointable_objs {= o.name; ","; =} =} ]; 
             var {= controls_var; =} = new point_controls({= cam_var; =}, {= id; =}_pointable_objs);
-        /]
+        |]
         
-        activate(boolean flag) [|
+        activate(boolean flag) [/
             {= controls_var; =}.enabled = {= flag; =};    
-        /]
+        |]
 
         this;
     }
@@ -194,7 +194,7 @@ site three {
         
         controls_var = id + "_drag_controls"
 
-        declare [|
+        declare [/
             var drag_controls = function( _camera, _objects ) {
 
                 var _domElement = document.getElementById("{= id; =}");
@@ -223,13 +223,13 @@ site three {
             }
             drag_controls.prototype = Object.create( THREE.EventDispatcher.prototype );
             drag_controls.prototype.constructor = drag_controls;
-        |]
+        /]
 
 
 
         event_handler mousedown {
            name = controls_var + ".onmousedown"
-           declare [|
+           declare [/
                function(event) {
                    if (_this.enabled === false) {
                        return;
@@ -253,12 +253,12 @@ site three {
                        _this.dispatchEvent( { type: 'dragstart', object: _selected } );
                    }
                }
-           /]
+           |]
         }
 
         event_handler mouseup {
            name = controls_var + ".onmouseup"
-           declare [|
+           declare [/
                function( event ) {
                    event.preventDefault();
                    if ( _selected ) {
@@ -270,12 +270,12 @@ site three {
                    }
                    _domElement.style.cursor = 'auto';
                }
-           /]
+           |]
         }
 
         event_handler mousemove {
            name = controls_var + ".onmousemove"
-           declare [|
+           declare [/
                function( event ) {
                    if (_this.enabled === false) {
                        return;
@@ -300,15 +300,15 @@ site three {
                        targetposition.copy(ray.direction).multiplyScalar(u).add(ray.origin).sub(_offset);
 
                        {=
-                           if (!x_lock) [|
+                           if (!x_lock) [/
                                _selected.object.position.x = targetposition.x;
-                           /]
-                           if (!y_lock) [|
+                           |]
+                           if (!y_lock) [/
                                _selected.object.position.y = targetposition.y;
-                           /]
-                           if (!z_lock) [|
+                           |]
+                           if (!z_lock) [/
                               _selected.object.position.z = targetposition.z;
-                           /]
+                           |]
                        =}
 
                        if ("ondrag" in _selected.object) {
@@ -335,17 +335,17 @@ site three {
                       _domElement.style.cursor = 'auto';
                   }
                }
-           /]
+           |]
         }
  
-        attach(cam_var) [|
+        attach(cam_var) [/
             var {= id; =}_draggable_objs = [ {= for three_obj o in obj.draggable_objs {= o.name; ","; =} =} ]; 
             var {= controls_var; =} = new drag_controls({= cam_var; =}, {= id; =}_draggable_objs);
-        /]
+        |]
         
-        activate(boolean flag) [|
+        activate(boolean flag) [/
             {= controls_var; =}.enabled = {= flag; =};    
-        /]
+        |]
 
         this;
     }

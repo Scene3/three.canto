@@ -91,7 +91,7 @@ site three {
     /---- textures ----/
 
     undecorated load_texture(image_path) {
-        [/ THREE.ImageUtils.loadTexture("{= image_path; =}") /]
+        [| THREE.ImageUtils.loadTexture("{= image_path; =}") |]
     }
 
     

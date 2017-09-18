@@ -42,11 +42,11 @@ site three {
         dynamic default_handler_name(event) = canvas_name + "_" + event
         dynamic javascript handle(event) {
             default_handler_name(event);
-            [/ (); /]            
+            [| (); |]            
         } 
 
         dynamic javascript recalc_canvas_size_logic {
-            if (size_to_window) [/
+            if (size_to_window) [|
                 var x = 0;
                 var y = 0;
                 var width = 0;
@@ -61,10 +61,10 @@ site three {
                 }
                 canvasWidth = width - x;
                 canvasHeight = height - y;
-            /] else [/
+            |] else [|
                 canvasWidth = {= canvas_container; =}.clientWidth;
                 canvasHeight = {= canvas_container; =}.clientHeight;
-            /]
+            |]
         }
 
         sub_script [/]
@@ -79,8 +79,8 @@ site three {
          ---- canvas; otherwise the canvas is set to the width and height 
          ---- of the component containing it.
          ----/
-        canvas_width [/ canvasWidth /]
-        canvas_height [/ canvasHeight /]
+        canvas_width [| canvasWidth |]
+        canvas_height [| canvasHeight |]
         boolean size_to_window = true
 
         /---- names of various canvas-related things ----/
@@ -107,28 +107,28 @@ site three {
             newline;
             with (element)  {
                 element.name;
-                [/ . /]
+                [| . |]
             } else {
-                [/ window. /]
+                [| window. |]
             }
             event;
-            [/ = /]
+            [| = |]
             with (handler) {
                 handler.name;
             } else {
                 default_handler_name(event);
             }
-            [/ ; /]
+            [| ; |]
         } 
 
         dynamic js_function default_handler(event) {
             name = default_handler_name(event)
             
-            [/            
+            [|            
                 function {= default_handler_name(event); =}(event) {
                     {= body; =}
                 }
-            /]
+            |]
         }            
 
 
@@ -180,9 +180,9 @@ site three {
         
             this generate {
                 canvas_container;
-                [/ .appendChild( /]
+                [| .appendChild( |]
                 name;
-                [/ .domElement); /]
+                [| .domElement); |]
                 sub;
             }
         }
@@ -193,15 +193,15 @@ site three {
         
         scripts {
             info_log("instantiating include_scripts");
-            for s in include_scripts [/
+            for s in include_scripts [|
                 <script src="{= s; =}"></script>
-            /]
+            |]
 
             info_log("instantiating main_script");
 
-            [/ <script> /]
+            [| <script> |]
             main_script;
-            [/ </script> /]    
+            [| </script> |]    
          }
 
     
@@ -225,20 +225,20 @@ site three {
             declare_controls;
             
             if (run_scripts_on_load) {
-                [/ function {= default_handler_name("onload"); =}() { /]
+                [| function {= default_handler_name("onload"); =}() { |]
             }
             
             /-- proceed, providing there is webgl --/            
-            [/ if (webglEnabled) { /]
+            [| if (webglEnabled) { |]
 
-                [/ recalcCanvasSize(); /]
+                [| recalcCanvasSize(); |]
 
                 debug_log("constructing renderer id " + canvas_id + "   width " + canvas_width + "   height " + canvas_height);
                 this_renderer(canvas_id, canvas_width, canvas_height).generate;
 
-                if (size_to_window) [/
+                if (size_to_window) [|
                     window.addEventListener("resize", resizeCanvas, false);
-                /]
+                |]
 
                 /-- construct the scene --/
                 js_comment_log("construct the scene");
@@ -263,21 +263,21 @@ site three {
                 /-- add mouse listeners etc. --/
                 add_controls;
 
-                [/ updateCamera(); /]
+                [| updateCamera(); |]
 
                 /-- drop into the rendering loop, from whence we will not return --/
                 info_log("begin rendering loop");
                 run;
 
             /-- no webgl --/
-            [/ } else { /]
+            [| } else { |]
                 /-- notify the user and exit --/
                 canvas_container;
-                [/ .innerHTML = "<p><strong>Your hardware or software does not support the graphics capability required by this page.</strong></p>"; /]
-            [/ } /]
+                [| .innerHTML = "<p><strong>Your hardware or software does not support the graphics capability required by this page.</strong></p>"; |]
+            [| } |]
 
             if (run_scripts_on_load) {
-                [/ } /]
+                [| } |]
                 set_handler("onload");
             }
             
@@ -288,49 +288,49 @@ site three {
         /** Declare top level variables, including the  variable corresponding to this 
          *  component.
          **/
-        javascript declare_global_vars [/
+        javascript declare_global_vars [|
             var {= canvas_container; =} = document.getElementById("{= id; =}");
             var canvasWidth = {= canvas_container; =}.clientWidth;
             var canvasHeight = {= canvas_container; =}.clientHeight;
             var {= canvas_renderer; =};
             var {= canvas_scene; =};
             var {= canvas_camera; =};
-        /]  
+        |]  
         
         camera this_cam = this_scene.cam
-        javascript assign_global_vars [/
+        javascript assign_global_vars [|
             {= canvas_renderer; =} = this_renderer;
             {= canvas_scene; =} = {= this_scene.name; =};
             {= canvas_camera; =} = {= this_scene.cam.name; =};
 
-        /]
+        |]
 
         javascript update_global_vars(params{}) {
             cam_pos = canvas_camera + ".position"
                    
             if (params["camera_x"]) {
                 cam_pos;
-                [/ .setX( /]
+                [| .setX( |]
                 params["camera_x"];
-                [/ ); /]
+                [| ); |]
             }
             if (params["camera_x"]) {
                 cam_pos;
-                [/ .setX( /]
+                [| .setX( |]
                 params["camera_x"];
-                [/ ); /]
+                [| ); |]
             }
             if (params["camera_x"]) {
                 cam_pos;
-                [/ .setX( /]
+                [| .setX( |]
                 params["camera_x"];
-                [/ ); /]
+                [| ); |]
             }
        }       
         
         
         /** Create the canvas, depending on what kind of graphics support is available on the client. **/
-        javascript create_canvas [/
+        javascript create_canvas [|
              var {= canvas_name; =} = document.createElement("canvas");
              {= canvas_name; =}.id = "{= canvas_id; =}";
              var canvasEnabled = {= canvas_name; =} && !!window.CanvasRenderingContext2D;
@@ -350,7 +350,7 @@ site three {
                          return false;
                      }
                  } ({= canvas_name; =}));
-        /]
+        |]
         
                       
         /** Declare functions. **/
@@ -366,9 +366,9 @@ site three {
         
         
         /** Run the animation. **/
-        javascript run [/
+        javascript run [|
             animate();
-        /]
+        |]
 
         /-- top-level javascript functions for this component --/
 
@@ -377,12 +377,12 @@ site three {
         
             args[] = [ "timestamp" ]
             
-            body [/
+            body [|
                 requestAnimationFrame(animate);
                 {= canvas_scene; =}.next_frame();
                 render();
                 post_render();
-            /]
+            |]
         }
 
         js_function interact {
@@ -392,11 +392,11 @@ site three {
         js_function render {
             body {
                 canvas_renderer; 
-                [/ .render( /]
+                [| .render( |]
                 canvas_scene;
-                [/ , /]
+                [| , |]
                 canvas_camera;
-                [/ ); /]
+                [| ); |]
             }
         }
 
@@ -405,7 +405,7 @@ site three {
         }
        
        
-        javascript declare_utils [/
+        javascript declare_utils [|
 
             function resizeCanvas() {
                 recalcCanvasSize();
@@ -430,7 +430,7 @@ site three {
                 }
             }
                       
-        /]
+        |]
 
         /--------------------------------/
         /---- component construction ----/

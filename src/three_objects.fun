@@ -21,10 +21,10 @@ site three {
         int seg_width = 100
         int seg_height = 100
         
-        decl [/
+        decl [|
             var {= name; =} = new THREE.Mesh( {= geo.construct; =}, {= mat.construct; =} ); 
             {= name; =}.scale.x = -1;
-        /]
+        |]
     }
 
         
