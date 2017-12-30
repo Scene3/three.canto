@@ -720,7 +720,7 @@ site three {
 
     dynamic js_comment_log(comment) {
         js_comment(comment);
-        info_log("Generating code: " + comment);
+        info_log("adding comment to javascript: " + comment);
     }
 
 

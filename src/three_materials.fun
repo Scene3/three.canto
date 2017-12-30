@@ -35,7 +35,9 @@ site three {
                       with (offset_factor)  { "offsetFactor": offset_factor },
                       with (offset_units)   { "offsetUnits": offset_units },
                       with (alpha_test)     { "alphaTest": alpha_test },
-                      with (overdraw)       { "overdraw": overdraw }
+                      with (overdraw)       { "overdraw": overdraw },
+                      with (side)           { "side": side }
+                      
                     }
     }
     
@@ -76,7 +78,7 @@ site three {
                       with (line_join)        { "wireframeLinejoin": line_join },
                       with (vertex_colors)    { "vertexColors": vertex_colors },
                       with (skinning)         { "skinning": skinning },
-                      with (morph_targets)    { "morphTargets": morph_targets } 
+                      with (morph_targets)    { "morphTargets": morph_targets }
                     }                     
     }
 

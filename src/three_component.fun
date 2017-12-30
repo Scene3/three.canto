@@ -55,8 +55,8 @@ site three {
                    x += element.offsetLeft;
                    y += element.offsetTop;
                    if (element.offsetParent == null) {
-                       width = element.offsetWidth;
-                       height = element.offsetHeight;
+                       width = element.clientWidth;
+                       height = element.clientHeight;
                    }
                 }
                 canvasWidth = width - x;
@@ -90,7 +90,7 @@ site three {
         canvas_camera = canvas_id + "_camera"
 
         /---- subclasses may override this to add additional scripts to the list  ----/
-        include_scripts = [ "/js/lib/three.js" ]
+        include_scripts = [ "/js/libs/three.js" ]
 
         /** if true, an onLoad handler is defined and all the scripts defined by this component
          *  are embedded in the handler.

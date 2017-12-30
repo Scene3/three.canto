@@ -82,11 +82,11 @@ site three {
         dynamic default_handler_name(event) = canvas_name + "_" + event
         dynamic javascript handle(event) {
             default_handler_name(event);
-            [/ (); /]            
+            [| (); |]            
         } 
 
         dynamic javascript recalc_canvas_size_logic {
-            if (size_to_window) [/
+            if (size_to_window) [|
                 var x = 0;
                 var y = 0;
                 var width = 0;
@@ -101,10 +101,10 @@ site three {
                 }
                 canvasWidth = width - x;
                 canvasHeight = height - y;
-            /] else [/
+            |] else [|
                 canvasWidth = {= canvas_container; =}.clientWidth;
                 canvasHeight = {= canvas_container; =}.clientHeight;
-            /]
+            |]
         }
 
         sub_script [/]
@@ -119,8 +119,8 @@ site three {
          ---- canvas; otherwise the canvas is set to the width and height 
          ---- of the component containing it.
          ----/
-        canvas_width [/ canvasWidth /]
-        canvas_height [/ canvasHeight /]
+        canvas_width [| canvasWidth |]
+        canvas_height [| canvasHeight |]
         boolean size_to_window = true
 
         /---- names of various canvas-related things ----/
@@ -147,28 +147,28 @@ site three {
             newline;
             with (element)  {
                 element.name;
-                [/ . /]
+                [| . |]
             } else {
-                [/ window. /]
+                [| window. |]
             }
             event;
-            [/ = /]
+            [| = |]
             with (handler) {
                 handler.name;
             } else {
                 default_handler_name(event);
             }
-            [/ ; /]
+            [| ; |]
         } 
 
         dynamic js_function default_handler(event) {
             name = default_handler_name(event)
             
-            [/            
+            [|            
                 function {= default_handler_name(event); =}(event) {
                     {= body; =}
                 }
-            /]
+            |]
         }            
 
 
@@ -220,9 +220,9 @@ site three {
         
             this generate {
                 canvas_container;
-                [/ .appendChild( /]
+                [| .appendChild( |]
                 name;
-                [/ .domElement); /]
+                [| .domElement); |]
                 sub;
             }
         }
@@ -233,15 +233,15 @@ site three {
         
         scripts {
             info_log("instantiating include_scripts");
-            for s in include_scripts [/
+            for s in include_scripts [|
                 <script src="{= s; =}"></script>
-            /]
+            |]
 
             info_log("instantiating main_script");
 
-            [/ <script> /]
+            [| <script> |]
             main_script;
-            [/ </script> /]    
+            [| </script> |]    
          }
 
     
@@ -265,20 +265,20 @@ site three {
             declare_controls;
             
             if (run_scripts_on_load) {
-                [/ function {= default_handler_name("onload"); =}() { /]
+                [| function {= default_handler_name("onload"); =}() { |]
             }
             
             /-- proceed, providing there is webgl --/            
-            [/ if (webglEnabled) { /]
+            [| if (webglEnabled) { |]
 
-                [/ recalcCanvasSize(); /]
+                [| recalcCanvasSize(); |]
 
                 debug_log("constructing renderer id " + canvas_id + "   width " + canvas_width + "   height " + canvas_height);
                 this_renderer(canvas_id, canvas_width, canvas_height).generate;
 
-                if (size_to_window) [/
+                if (size_to_window) [|
                     window.addEventListener("resize", resizeCanvas, false);
-                /]
+                |]
 
                 /-- construct the scene --/
                 js_comment_log("construct the scene");
@@ -303,21 +303,21 @@ site three {
                 /-- add mouse listeners etc. --/
                 add_controls;
 
-                [/ updateCamera(); /]
+                [| updateCamera(); |]
 
                 /-- drop into the rendering loop, from whence we will not return --/
                 info_log("begin rendering loop");
                 run;
 
             /-- no webgl --/
-            [/ } else { /]
+            [| } else { |]
                 /-- notify the user and exit --/
                 canvas_container;
-                [/ .innerHTML = "<p><strong>Your hardware or software does not support the graphics capability required by this page.</strong></p>"; /]
-            [/ } /]
+                [| .innerHTML = "<p><strong>Your hardware or software does not support the graphics capability required by this page.</strong></p>"; |]
+            [| } |]
 
             if (run_scripts_on_load) {
-                [/ } /]
+                [| } |]
                 set_handler("onload");
             }
             
@@ -328,49 +328,49 @@ site three {
         /** Declare top level variables, including the  variable corresponding to this 
          *  component.
          **/
-        javascript declare_global_vars [/
+        javascript declare_global_vars [|
             var {= canvas_container; =} = document.getElementById("{= id; =}");
             var canvasWidth = {= canvas_container; =}.clientWidth;
             var canvasHeight = {= canvas_container; =}.clientHeight;
             var {= canvas_renderer; =};
             var {= canvas_scene; =};
             var {= canvas_camera; =};
-        /]  
+        |]  
         
         camera this_cam = this_scene.cam
-        javascript assign_global_vars [/
+        javascript assign_global_vars [|
             {= canvas_renderer; =} = this_renderer;
             {= canvas_scene; =} = {= this_scene.name; =};
             {= canvas_camera; =} = {= this_scene.cam.name; =};
 
-        /]
+        |]
 
         javascript update_global_vars(params{}) {
             cam_pos = canvas_camera + ".position"
                    
             if (params["camera_x"]) {
                 cam_pos;
-                [/ .setX( /]
+                [| .setX( |]
                 params["camera_x"];
-                [/ ); /]
+                [| ); |]
             }
             if (params["camera_x"]) {
                 cam_pos;
-                [/ .setX( /]
+                [| .setX( |]
                 params["camera_x"];
-                [/ ); /]
+                [| ); |]
             }
             if (params["camera_x"]) {
                 cam_pos;
-                [/ .setX( /]
+                [| .setX( |]
                 params["camera_x"];
-                [/ ); /]
+                [| ); |]
             }
        }       
         
         
         /** Create the canvas, depending on what kind of graphics support is available on the client. **/
-        javascript create_canvas [/
+        javascript create_canvas [|
              var {= canvas_name; =} = document.createElement("canvas");
              {= canvas_name; =}.id = "{= canvas_id; =}";
              var canvasEnabled = {= canvas_name; =} && !!window.CanvasRenderingContext2D;
@@ -390,7 +390,7 @@ site three {
                          return false;
                      }
                  } ({= canvas_name; =}));
-        /]
+        |]
         
                       
         /** Declare functions. **/
@@ -406,9 +406,9 @@ site three {
         
         
         /** Run the animation. **/
-        javascript run [/
+        javascript run [|
             animate();
-        /]
+        |]
 
         /-- top-level javascript functions for this component --/
 
@@ -417,12 +417,12 @@ site three {
         
             args[] = [ "timestamp" ]
             
-            body [/
+            body [|
                 requestAnimationFrame(animate);
                 {= canvas_scene; =}.next_frame();
                 render();
                 post_render();
-            /]
+            |]
         }
 
         js_function interact {
@@ -432,11 +432,11 @@ site three {
         js_function render {
             body {
                 canvas_renderer; 
-                [/ .render( /]
+                [| .render( |]
                 canvas_scene;
-                [/ , /]
+                [| , |]
                 canvas_camera;
-                [/ ); /]
+                [| ); |]
             }
         }
 
@@ -445,7 +445,7 @@ site three {
         }
        
        
-        javascript declare_utils [/
+        javascript declare_utils [|
 
             function resizeCanvas() {
                 recalcCanvasSize();
@@ -470,7 +470,7 @@ site three {
                 }
             }
                       
-        /]
+        |]
 
         /--------------------------------/
         /---- component construction ----/
@@ -505,7 +505,7 @@ site three {
 
     dynamic dom_event(nm) {
        name = nm
-       [/ '{= name; =}' /]
+       [| '{= name; =}' |]
     }
         
     dynamic event_handler {
@@ -515,9 +515,9 @@ site three {
     }
     
     dynamic event_listener(element, dom_event event, event_handler handler) {
-        [|
+        [/
             {= element; =}.addEventListener({= event; =}, {= handler.name; =}, {= handler.capture; =});
-        /]            
+        |]            
     }
 
     /---- interaction events ----/
@@ -564,7 +564,7 @@ site three {
     controls point_controls(id, three_object obj) {
         controls_var = id + "_point_controls"
 
-        declare [|
+        declare [/
             var point_controls = function(_camera, _objects) {
                 var _domElement = document.getElementById("{= id; =}");
                 var _raycaster = new THREE.Raycaster();
@@ -585,11 +585,11 @@ site three {
             }
             point_controls.prototype = Object.create( THREE.EventDispatcher.prototype );
             point_controls.prototype.constructor = point_controls;
-        |]
+        /]
     
         event_handler mousedown {
            name = controls_var + ".onmousedown"
-           declare [|
+           declare [/
                function(event) {
                    if (_this.enabled === false) {
                        return;
@@ -612,12 +612,12 @@ site three {
                        _this.dispatchEvent( { type: 'select', object: _selected } );
                    }
                }
-           /]
+           |]
         }
 
         event_handler mouseup {
            name = controls_var + ".onmouseup"
-           declare [|
+           declare [/
                function(event) {
                    event.preventDefault();
                    if (_selected) {
@@ -625,12 +625,12 @@ site three {
                    }
                    _domElement.style.cursor = 'auto';
                }
-           /]
+           |]
         }
 
         event_handler mousemove {
            name = controls_var + ".onmousemove"
-           declare [|
+           declare [/
                function(event) {
                    if (_this.enabled === false) {
                        return;
@@ -656,17 +656,17 @@ site three {
                        _domElement.style.cursor = 'auto';
                    }
                }
-           /]
+           |]
         }
 
-        attach(cam_var) [|
+        attach(cam_var) [/
             var {= id; =}_pointable_objs = [ {= for three_obj o in obj.pointable_objs {= o.name; ","; =} =} ]; 
             var {= controls_var; =} = new point_controls({= cam_var; =}, {= id; =}_pointable_objs);
-        /]
+        |]
         
-        activate(boolean flag) [|
+        activate(boolean flag) [/
             {= controls_var; =}.enabled = {= flag; =};    
-        /]
+        |]
 
         this;
     }
@@ -686,7 +686,7 @@ site three {
         
         controls_var = id + "_drag_controls"
 
-        declare [|
+        declare [/
             var drag_controls = function( _camera, _objects ) {
 
                 var _domElement = document.getElementById("{= id; =}");
@@ -715,13 +715,13 @@ site three {
             }
             drag_controls.prototype = Object.create( THREE.EventDispatcher.prototype );
             drag_controls.prototype.constructor = drag_controls;
-        |]
+        /]
 
 
 
         event_handler mousedown {
            name = controls_var + ".onmousedown"
-           declare [|
+           declare [/
                function(event) {
                    if (_this.enabled === false) {
                        return;
@@ -745,12 +745,12 @@ site three {
                        _this.dispatchEvent( { type: 'dragstart', object: _selected } );
                    }
                }
-           /]
+           |]
         }
 
         event_handler mouseup {
            name = controls_var + ".onmouseup"
-           declare [|
+           declare [/
                function( event ) {
                    event.preventDefault();
                    if ( _selected ) {
@@ -762,12 +762,12 @@ site three {
                    }
                    _domElement.style.cursor = 'auto';
                }
-           /]
+           |]
         }
 
         event_handler mousemove {
            name = controls_var + ".onmousemove"
-           declare [|
+           declare [/
                function( event ) {
                    if (_this.enabled === false) {
                        return;
@@ -792,15 +792,15 @@ site three {
                        targetposition.copy(ray.direction).multiplyScalar(u).add(ray.origin).sub(_offset);
 
                        {=
-                           if (!x_lock) [|
+                           if (!x_lock) [/
                                _selected.object.position.x = targetposition.x;
-                           /]
-                           if (!y_lock) [|
+                           |]
+                           if (!y_lock) [/
                                _selected.object.position.y = targetposition.y;
-                           /]
-                           if (!z_lock) [|
+                           |]
+                           if (!z_lock) [/
                               _selected.object.position.z = targetposition.z;
-                           /]
+                           |]
                        =}
 
                        if ("ondrag" in _selected.object) {
@@ -827,17 +827,17 @@ site three {
                       _domElement.style.cursor = 'auto';
                   }
                }
-           /]
+           |]
         }
  
-        attach(cam_var) [|
+        attach(cam_var) [/
             var {= id; =}_draggable_objs = [ {= for three_obj o in obj.draggable_objs {= o.name; ","; =} =} ]; 
             var {= controls_var; =} = new drag_controls({= cam_var; =}, {= id; =}_draggable_objs);
-        /]
+        |]
         
-        activate(boolean flag) [|
+        activate(boolean flag) [/
             {= controls_var; =}.enabled = {= flag; =};    
-        /]
+        |]
 
         this;
     }
@@ -1004,43 +1004,43 @@ site three {
             name = owner.type
 
             owner.name;
-            [/ . /]
+            [| . |]
             name;
             sub;
         }
 
         member field(x) {
-            [/ = /]
+            [| = |]
             x;
-            [/ ; /]
+            [| ; |]
         }
 
         member immutable_field(x),(x, y),(x, y, z) {
-            [/ .set( /]
+            [| .set( |]
             x;
             with (y) {
-                [/ , /]
+                [| , |]
                 y;
             }
             with (z) {
-                [/ , /]
+                [| , |]
                 z;
             }
-            [/ ); /]
+            [| ); |]
         }
             
         member method(x),(x, y),(x, y, z) {
-            [/ ( /]
+            [| ( |]
             x;
             with (y) {
-                [/ , /]
+                [| , |]
                 y;
             }
             with (z) {
-                [/ , /]
+                [| , |]
                 z;
             }
-            [/ ); /]
+            [| ); |]
         }
         
         dynamic javascript generate { 
@@ -1059,16 +1059,16 @@ site three {
         javascript body [?]
 
         /-- declare the function --/
-        javascript declare [|
+        javascript declare [/
             {= debug_log("declaring function " + name + " with " + parameters.count + " parameters"); =}
             function {= name; =}({= item_list(parameters); =}) {
             {= body; =}
             }
-        |]
+        /]
 
 
         /-- call the function --/
-        this generate [| {= name; =}(); /]
+        this generate [/ {= name; =}(); |]
     }
 
     dynamic item_list(items[]) {
@@ -1093,7 +1093,7 @@ site three {
         double z = zz
 
         debug_log("...instantiating vector3 of type "+ type + " and x,y,z = " + x + "," + y + "," + z);
-        [| new THREE.Vector3({= x; =}, {= y; =}, {= z; =}) /]
+        [/ new THREE.Vector3({= x; =}, {= y; =}, {= z; =}) |]
 
     } 
 
@@ -1105,7 +1105,7 @@ site three {
     dynamic javascript three_color(c) {
         keep: int color = c
         
-        [| new THREE.Color({= color; =}) /]
+        [/ new THREE.Color({= color; =}) |]
     }
 
     /** Base class of objects used in scene construction.  These objects
@@ -1184,42 +1184,42 @@ site three {
         dynamic javascript add(three_object obj) {
             debug_log("....adding " + obj.name + " to " + name);
             name;
-            [/ .add( /]
+            [| .add( |]
             obj.name;
-            [/ ); /]
+            [| ); |]
         }
         
         dynamic javascript rotate(float x, float y, float z) {
             newline;
-            name; [/ .rotation.x += {= x; =}; /]
-            name; [/ .rotation.y += {= y; =}; /]
-            name; [/ .rotation.z += {= z; =}; /]
+            name; [| .rotation.x += {= x; =}; |]
+            name; [| .rotation.y += {= y; =}; |]
+            name; [| .rotation.z += {= z; =}; |]
         }
         
         dynamic javascript orient(float x, float y, float z) {
             newline;
-            name; [/ .rotation.x = {= x; =}; /]
-            name; [/ .rotation.y = {= y; =}; /]
-            name; [/ .rotation.z = {= z; =}; /]
+            name; [| .rotation.x = {= x; =}; |]
+            name; [| .rotation.y = {= y; =}; |]
+            name; [| .rotation.z = {= z; =}; |]
         }
         
         dynamic javascript rotate_on_axis(vector3 axis, float angle) {
             newline;
-            name; [/ .rotateOnAxis({= axis; =},{= angle; =}); /]
+            name; [| .rotateOnAxis({= axis; =},{= angle; =}); |]
         }
 
         dynamic javascript move(float x, float y, float z) {
             newline;
-            name; [/ .position.x += {= x; =}; /]
-            name; [/ .position.y += {= y; =}; /]
-            name; [/ .position.z += {= z; =}; /]
+            name; [| .position.x += {= x; =}; |]
+            name; [| .position.y += {= y; =}; |]
+            name; [| .position.z += {= z; =}; |]
         }
 
         dynamic javascript locate(float x, float y, float z) {
             newline;
-            name; [/ .position.x = {= x; =}; /]
-            name; [/ .position.y = {= y; =}; /]
-            name; [/ .position.z = {= z; =}; /]
+            name; [| .position.x = {= x; =}; |]
+            name; [| .position.y = {= y; =}; |]
+            name; [| .position.z = {= z; =}; |]
         }
 
         dynamic immutable_field(pos.x, pos.y, pos.z) set_position {
@@ -1236,9 +1236,9 @@ site three {
             debug_log("    ...options: " + (string) options);  
             debug_log("    ...decorated options: " + decorate(options));  
 
-            [| new THREE. /]
+            [/ new THREE. |]
             three_class;
-            [/ ( /]
+            [| ( |]
 
             if (args) {
                 arg_list(args);
@@ -1247,14 +1247,14 @@ site three {
                 decorate(options);
             }
 
-            [/ ) /]
+            [| ) |]
         }
 
         dynamic javascript set_attributes {
             debug_log("setting position of " + owner.type + " to " + pos);
-            with (pos) [|
+            with (pos) [/
                 {= name; =}.position.set({= pos.x; =}, {= pos.y; =}, {= pos.z; =});
-            /]
+            |]
             sub;            
         }         
 
@@ -1263,37 +1263,37 @@ site three {
             if (decl) {
                 decl;
                 
-            } else if (three_class) [| 
+            } else if (three_class) [/ 
                 var {= name; =} = {= construct; =};
-            /]
+            |]
             
             set_attributes;
             
             sub;
     
-            with (next_frame) [|
+            with (next_frame) [/
                 {= name; =}.next_frame = function () {
                     {= next_frame; =}
                 };
-            /]
+            |]
 
-            with (interact) [|
+            with (interact) [/
                 {= name; =}.interact = function () {
                     {= interact; =}
                 };
-            /]
+            |]
             
-            with (on_point_to) [|
+            with (on_point_to) [/
                 {= name; =}.onselect = function() {
                     {= on_point_to; =}
                 };
-            /]
+            |]
 
-            with (on_drag) [|
+            with (on_drag) [/
                 {= name; =}.ondrag = function() {
                     {= on_drag; =}
                 };
-            /]
+            |]
         }
     }
 
@@ -1309,7 +1309,7 @@ site three {
         
             name; 
             
-            [/ .raycast = function(raycaster, intersects) {
+            [| .raycast = function(raycaster, intersects) {
                     var childIntersects = [];
                     var children = this.children;
                     for ( var i = 0, len = children.length; i < len; i++ ) {
@@ -1322,7 +1322,7 @@ site three {
                        }
                     }          
                 };
-            /]
+            |]
         
             sub;
         }
@@ -1376,7 +1376,7 @@ site three {
      
         javascript set_size(width, height) {
             owner.name;
-            [/ .setSize({= width; =}, {= height; =}); /]
+            [| .setSize({= width; =}, {= height; =}); |]
         }
 
         javascript set_attributes [/]
@@ -1409,9 +1409,9 @@ site three {
                                 (vector3 origin, vector3 direction, near, far) {
         three_class = "Raycaster"
     
-        with (near)        [/ new THREE.Raycaster({= origin; =}, {= direction; =}, {= near; =}, {= far; =}) /]
-        else with (origin) [/ new THREE.Raycaster({= origin; =}, {= direction; =}) /]
-        else               [/ new THREE.Raycaster() /]
+        with (near)        [| new THREE.Raycaster({= origin; =}, {= direction; =}, {= near; =}, {= far; =}) |]
+        else with (origin) [| new THREE.Raycaster({= origin; =}, {= direction; =}) |]
+        else               [| new THREE.Raycaster() |]
     } 
 
 
@@ -1476,9 +1476,9 @@ site three {
         this generate {
             far(2000);    /--- 1.5 * backdrop.horizon); ---/
             debug_log("default_scene_cam name: " + name);
-            [/
+            [|
                 {= name; =}.target = new THREE.Vector3( 0, 2, 0 );
-            /]
+            |]
             sub;
         }
     }
@@ -1529,9 +1529,9 @@ site three {
         /---- meta properties ----/
 
         title = "three.fun"
-        viewport [/ width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0 /]
+        viewport [| width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0 |]
 
-        style [/ 
+        style [| 
             html, body { 
                 width: 100%;
                 height: 100%;
@@ -1540,7 +1540,7 @@ site three {
                 margin: 0;
                 background: #111111;
             }
-        /]
+        |]
 
         /---------------------/
         /----  the scene  ----/
@@ -1576,11 +1576,11 @@ site three {
         /---- the canvas ----/
     
         three_component(*) tc(scene s),(params{}) {
-            style  [/ position: absolute; top: 0; left: 0;
+            style  [| position: absolute; top: 0; left: 0;
                       width: 100%; height: 100%; 
                       margin: 0; padding: 0;
                       z-index: 0;
-                   /]
+                   |]
 
             canvas_id = "tc"
             
@@ -1591,7 +1591,7 @@ site three {
             controls[] canvas_controls = [ my_drag_controls(canvas_id, s) ]
         }        
 
-        [/
+        [|
            <div style="position: absolute; top: 16px; left: 16px;
                        width: 30em; padding: 12px;
                        color: #88FFAA;
@@ -1603,7 +1603,7 @@ site three {
                    applications that deliver interactive 3D content.
                </p>
            </div>
-        /] 
+        |] 
         tc(sample_scene);
     }
     
@@ -1639,7 +1639,7 @@ site three {
     dynamic arg_list(arguments[]) {
         if (arguments) {
             for int i from 0 to arguments.count {
-                if (i > 0) [/ , /]
+                if (i > 0) [| , |]
                 arguments[i];
             } 
         }
@@ -1791,7 +1791,7 @@ site three {
     /---- textures ----/
 
     undecorated load_texture(image_path) {
-        [/ THREE.ImageUtils.loadTexture("{= image_path; =}") /]
+        [| THREE.ImageUtils.loadTexture("{= image_path; =}") |]
     }
 
     
@@ -1819,10 +1819,10 @@ site three {
         int seg_width = 100
         int seg_height = 100
         
-        decl [/
+        decl [|
             var {= name; =} = new THREE.Mesh( {= geo.construct; =}, {= mat.construct; =} ); 
             {= name; =}.scale.x = -1;
-        /]
+        |]
     }
 
         
