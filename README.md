@@ -1,3 +1,4 @@
-# three.fun
+# three.canto
 
-three.js support for Fun
+three.js support for Canto
+

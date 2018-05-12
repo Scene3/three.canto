@@ -1,7 +1,7 @@
 /---------------------
- -- three_main.fun
+ -- three_main.can
  --
- -- Main module of three.fun
+ -- Main module of three.can
  -- Bento support for three.js
  --
  -- Copyright (c) 2017 by Michael St. Hippolyte
@@ -341,9 +341,11 @@ site three {
         }
 
         dynamic javascript set_attributes {
-            debug_log("setting position of " + owner.type + " to " + pos);
             with (pos) [/
                 {= name; =}.position.set({= pos.x; =}, {= pos.y; =}, {= pos.z; =});
+            |]
+            with (rot) [/
+                {= name; =}.rotation.set({= rot.x; =}, {= rot.y; =}, {= rot.z; =});
             |]
             sub;            
         }         
@@ -618,7 +620,7 @@ site three {
         /-------------------------/
         /---- meta properties ----/
 
-        title = "three.fun"
+        title = "three.canto"
         viewport [| width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0 |]
 
         style [| 
@@ -686,10 +688,10 @@ site three {
                        width: 30em; padding: 12px;
                        color: #88FFAA;
                        z-index: 100; background: rgba(255, 255, 255, 0.1)" >
-               <h2>three.fun</h2>
+               <h2>three.can</h2>
                <h3>Bento support for three.js</h3>
                <p>
-                   three.fun is a library that makes it easy to write server
+                   three.canto is a library that makes it easy to write server
                    applications that deliver interactive 3D content.
                </p>
            </div>
@@ -748,7 +750,7 @@ site three {
             }
             k;
             ": ";
-            if (!(items[k] isa undecorated)) {
+            if (items[k] isa string && !(items[k] isa undecorated)) {
                 debug_log(k + " gets decoration"); 
                 '"';
                 items[k];

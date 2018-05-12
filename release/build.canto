@@ -1,26 +1,26 @@
 /--
- --  Script to combine all three.fun source files into a single file
- --  called three.fun
+ --  Script to combine all three.can source files into a single file
+ --  called three.can
  --/
 
-script build_fun {
+script build_can {
 
     public main(args[]) {
         file[] files = file("../src/").files
-        file three_file = file("three.fun"); 
+        file three_file = file("three.can"); 
 
-        keep: fun_source = ""
-        keep as fun_source: dynamic add_to_fun_source(text) = fun_source + text + newline
+        keep: can_source = ""
+        keep as can_source: dynamic add_to_can_source(text) = can_source + text + newline
 
                                                       
-        "Rebuilding three.fun...";
+        "Rebuilding three.can...";
         newline;
 
         for file f in files {
-            if (ends_with(f.name, ".fun")) {
+            if (ends_with(f.name, ".can")) {
                 f.name;
                 newline;
-                eval(add_to_fun_source(f.contents));
+                eval(add_to_can_source(f.contents));
             } else {
                 "Skipping ";
                 f.name;
@@ -28,7 +28,7 @@ script build_fun {
             }
         }
 
-        if (!three_file.overwrite(fun_source)) {
+        if (!three_file.overwrite(can_source)) {
             "  ...unable to write to ";
             three_file.name;
             newline;

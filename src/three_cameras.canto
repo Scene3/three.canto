@@ -1,7 +1,7 @@
 /---------------------
- -- three_cameras.fun
+ -- three_cameras.can
  --
- -- Cameras for three.fun
+ -- Cameras for three.can
  --
  -- Copyright (c) 2017 by Michael St. Hippolyte
  --
@@ -22,10 +22,10 @@ site three {
     dynamic camera perspective_camera {
         three_class = "PerspectiveCamera"
 
-        field(field_of_view) fov(field_of_view) [/]
-        field(aspect_ratio)  aspect(aspect_ratio) [/]
-        field(near_frame)    near(near_frame) [/]
-        field(far_frame)     far(far_frame) [/]
+        keep: field(field_of_view) fov(field_of_view) [/]
+        keep: field(aspect_ratio)  aspect(aspect_ratio) [/]
+        keep: field(near_frame)    near(near_frame) [/]
+        keep: field(far_frame)     far(far_frame) [/]
 
         method update_projection_matrix {
             name = "updateProjectionMatrix"

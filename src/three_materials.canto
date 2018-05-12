@@ -1,7 +1,7 @@
 /---------------------
- -- three_materials.fun
+ -- three_materials.can
  --
- -- Materials for three.fun
+ -- Materials for three.can
  --
  -- Copyright (c) 20174 by Michael St. Hippolyte
  --
@@ -9,6 +9,12 @@
  
 site three {
 
+    /---- contstants ----/
+    
+    static int FRONT_SIDE = 0
+    static int BACK_SIDE = 1
+    static int DOUBLE_SIDE = 2
+    
 
     /---- material base class ----/
         
@@ -25,6 +31,7 @@ site three {
         polygon_offset_units [?]        
         alpha_test [?]
         boolean overdraw [?]
+        int side [?]
            
         options{} = { with (opacity)        { "opacity": opacity },
                       with (transparent)    { "transparent": transparent },
@@ -63,7 +70,9 @@ site three {
         boolean skinning [?]
         boolean morph_targets [?]
     
-        options{} = { with (color)            { "color": color },
+        this options{} = {
+                      ..., 
+                      with (color)            { "color": color },
                       if   (map)              { "map": map },
                       if   (light_map)        { "lightMap": light_map },
                       if   (env_map)          { "envMap": env_map },
@@ -93,7 +102,7 @@ site three {
     /---- textures ----/
 
     undecorated load_texture(image_path) {
-        [| THREE.ImageUtils.loadTexture("{= image_path; =}") |]
+        [| new THREE.TextureLoader().load("{= image_path; =}") |]
     }
 
     

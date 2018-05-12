@@ -1,7 +1,7 @@
 /---------------------
- -- three_cameras.fun
+ -- three_cameras.can
  --
- -- Cameras for three.fun
+ -- Cameras for three.can
  --
  -- Copyright (c) 2017 by Michael St. Hippolyte
  --
@@ -39,7 +39,7 @@ site three {
     }
 }
 /---------------------
- -- three.fun
+ -- three.can
  --
  -- Component for rendering three.js content
  --
@@ -491,9 +491,9 @@ site three {
 
 }
 /---------------------
- -- three_controls.fun
+ -- three_controls.can
  --
- -- Controls for three.fun
+ -- Controls for three.can
  --
  -- Copyright (c) 2017 by Michael St. Hippolyte
  --
@@ -846,9 +846,9 @@ site three {
 
 }
 /---------------------
- -- three_geometries.fun
+ -- three_geometries.can
  --
- -- Geometries for three.fun
+ -- Geometries for three.can
  --
  -- Copyright (c) 2017 by Michael St. Hippolyte
  --
@@ -909,9 +909,9 @@ site three {
         
 }
 /---------------------
- -- three_main.fun
+ -- three_main.can
  --
- -- Main module of three.fun
+ -- Main module of three.can
  -- Bento support for three.js
  --
  -- Copyright (c) 2017 by Michael St. Hippolyte
@@ -1528,7 +1528,7 @@ site three {
         /-------------------------/
         /---- meta properties ----/
 
-        title = "three.fun"
+        title = "three.can"
         viewport [| width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0 |]
 
         style [| 
@@ -1596,10 +1596,10 @@ site three {
                        width: 30em; padding: 12px;
                        color: #88FFAA;
                        z-index: 100; background: rgba(255, 255, 255, 0.1)" >
-               <h2>three.fun</h2>
+               <h2>three.can</h2>
                <h3>Bento support for three.js</h3>
                <p>
-                   three.fun is a library that makes it easy to write server
+                   three.can is a library that makes it easy to write server
                    applications that deliver interactive 3D content.
                </p>
            </div>
@@ -1658,7 +1658,7 @@ site three {
             }
             k;
             ": ";
-            if (!(items[k] isa undecorated)) {
+            if (items[k] isa string && !(items[k] isa undecorated)) {
                 debug_log(k + " gets decoration"); 
                 '"';
                 items[k];
@@ -1699,9 +1699,9 @@ site three {
 
 }
 /---------------------
- -- three_materials.fun
+ -- three_materials.can
  --
- -- Materials for three.fun
+ -- Materials for three.can
  --
  -- Copyright (c) 20174 by Michael St. Hippolyte
  --
@@ -1797,9 +1797,9 @@ site three {
     
 }
 /---------------------
- -- three_objects.fun
+ -- three_objects.can
  --
- -- Full-fledged general objects for three.fun
+ -- Full-fledged general objects for three.can
  --
  -- Copyright (c) 2017 by Michael St. Hippolyte
  --
