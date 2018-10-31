@@ -85,7 +85,7 @@ site three {
         dynamic name = owner.type
 
         /** To generate basic scripting operations in a general way, we define
-         *  "field" and "method", which translate Bento instantiations into 
+         *  "field" and "method", which translate Canto instantiations into 
          *  either property assignments or method calls.  A base class, "member",
          *  handles the common statement prologue.
          **/  

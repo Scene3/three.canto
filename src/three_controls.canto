@@ -168,7 +168,7 @@ site three {
         }
 
         attach(cam_var) [/
-            var {= id; =}_pointable_objs = [ {= for three_obj o in obj.pointable_objs {= o.name; ","; =} =} ]; 
+            var {= id; =}_pointable_objs = [ {= for three_object o in obj.pointable_objs {= o.name; ","; =} =} ]; 
             var {= controls_var; =} = new point_controls({= cam_var; =}, {= id; =}_pointable_objs);
         |]
         
@@ -339,7 +339,7 @@ site three {
         }
  
         attach(cam_var) [/
-            var {= id; =}_draggable_objs = [ {= for three_obj o in obj.draggable_objs {= o.name; ","; =} =} ]; 
+            var {= id; =}_draggable_objs = [ {= for three_object o in obj.draggable_objs {= o.name; ","; =} =} ]; 
             var {= controls_var; =} = new drag_controls({= cam_var; =}, {= id; =}_draggable_objs);
         |]
         

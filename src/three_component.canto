@@ -160,7 +160,7 @@ site three {
             }
         }
 
-        dynamic javascripts declare_controls {
+        dynamic javascript declare_controls {
             for controls c in canvas_controls {
                 c.declare;
             }
